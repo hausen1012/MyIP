@@ -16,9 +16,9 @@
         <span class=" fw-bold  "> IP</span>
         <span class="fw-lighter">Check.</span>
         <span class="fw-lighter" :class="{
-      'background-animation-dark': !loaded && isDarkMode,
-      'background-animation-light': !loaded && !isDarkMode
-    }">ing</span>
+          'background-animation-dark': !loaded && isDarkMode,
+          'background-animation-light': !loaded && !isDarkMode
+        }">ing</span>
       </a>
 
       <div class="btn-group mx-1" :data-bs-theme="isDarkMode ? 'dark' : 'light'">
@@ -36,52 +36,49 @@
         </ul>
       </div>
 
-      <div>
-        <input type="checkbox" class="jn-checkbox" aria-label="Toggle Dark Mode" id="toggleBtn" v-model="isDarkMode"
-          @click="toggleDarkMode" />
-        <label class="switch" for="toggleBtn">
-          <i class="bi bi-moon-stars text-light"></i>
-          <i class="bi bi-brightness-high text-warning "></i>
-          <div class="ball"></div>
-        </label>
+      <div id="Preferences" class="preference-button" @click.prevent="OpenPreferences" role="button"
+        aria-label="Preferences">
+        <i class="bi bi-toggles"></i>
       </div>
 
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+      @click="closeAllOffCanvas">
       <span class="navbar-toggler-icon bg-transparent "></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+      <!-- 导航循环 -->
       <div class="navbar-nav ">
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#IPInfo"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'IPInfo')"> {{ $t('nav.IPinfo') }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#Connectivity"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'Connectivity')"> {{
-      $t('nav.Connectivity') }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#WebRTC"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'WebRTC')"> {{ $t('nav.WebRTC') }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#DNSLeakTest"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'DNSLeakTest')"> {{
-      $t('nav.DNSLeakTest') }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#RuleTest"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'RuleTest')"> {{
-      $t('nav.RuleTest') }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#SpeedTest"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'SpeedTest')"> {{ $t('nav.SpeedTest')
-          }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#PingTest"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'PingTest')"> {{ $t('nav.PingTest')
-          }}</a>
-        <a class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" href="#MTRTest"
-          @click="collapseNav(); $trackEvent('Nav', 'NavClick', 'MTRTest')"> {{ $t('nav.MTRTest') }}</a>
+        <a v-for="item in ['IPInfo', 'Connectivity', 'WebRTC', 'DNSLeakTest', 'SpeedTest', 'AdvancedTools']" :key="item"
+          class="nav-link" :class="{ 'text-white jn-deactive': isDarkMode }" :href="`#${item}`"
+          @click="collapseNav(); $trackEvent('Nav', 'NavClick', item)">{{
+            $t(`nav.${item}`) }}</a>
       </div>
+      <a :href="$t('page.footerLink')" class="btn jn-fs" id="githubStars"
+        :class="{ 'btn-outline-light': isDarkMode, 'btn-dark': !isDarkMode, 'mt-2': isMobile, 'ms-2': !isMobile }"
+        target="_blank" @click="$trackEvent('Footer', 'FooterClick', 'Github');" aria-label="Github">
+        <div><i class="bi bi-github"></i></div>
+        <div class="row flex-column ">
+          <TransitionGroup name="slide-fade">
+            <span key="default" class="col-12 jn-w" v-if="githubStars === 0">&nbsp;GitHub</span>
+            <span key="stars" class="col-12 jn-w" v-if="githubStars > 0">
+              &nbsp;{{ githubStars }}
+              <i class="bi bi-star-fill" :class="[isDarkMode ? 'redstar' : 'yellowstar']"></i>
+            </span>
+          </TransitionGroup>
+
+        </div>
+      </a>
     </div>
   </nav>
+
 </template>
 
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { Offcanvas } from 'bootstrap';
 
 export default {
   name: 'NavBar',
@@ -90,25 +87,69 @@ export default {
   setup() {
     const store = useStore();
     const isDarkMode = computed(() => store.state.isDarkMode);
+    const isMobile = computed(() => store.state.isMobile);
+    const configs = computed(() => store.state.configs);
+    const userPreferences = computed(() => store.state.userPreferences);
 
     return {
       isDarkMode,
+      isMobile,
+      configs,
+      userPreferences,
     };
   },
 
   data() {
     return {
       loaded: false,
+      githubStars: 0,
     }
   },
   methods: {
 
-    // 切换暗黑模式
-    toggleDarkMode() {
-      this.$store.commit('toggleDarkMode');
-      this.updateBodyClass();
-      this.PWAColor();
-      this.$trackEvent('Nav', 'ToggleClick', 'DarkMode');
+    closeAllOffCanvas() {
+      const offcanvasElements = document.querySelectorAll('.offcanvas');
+      if (offcanvasElements.length === 0) {
+        return;
+      }
+      document.querySelectorAll('.offcanvas').forEach((offcanvas) => {
+        const instance = Offcanvas.getInstance(offcanvas);
+        if (instance) {
+          instance.hide();
+        }
+      });
+    },
+
+    // 打开偏好设置
+    OpenPreferences() {
+      var offcanvasElement = document.getElementById('offcanvasPreferences');
+      var offcanvas = Offcanvas.getInstance(offcanvasElement) || new Offcanvas(offcanvasElement);
+      if (offcanvasElement.classList.contains('show')) {
+        offcanvas.hide();
+      } else {
+        offcanvas.show();
+      }
+
+      this.$trackEvent('Nav', 'NavClick', 'Preferences');
+    },
+
+    //获取 GitHub stars
+    async getGitHubStars() {
+      const url = `https://api.github.com/repos/jason5ng32/MyIP`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setTimeout(() => {
+          this.githubStars = data.stargazers_count;
+        }, 1000);
+      } catch (error) {
+        console.error('Failed to fetch Github data:', error);
+        this.githubStars = 0;
+      }
     },
 
     // 收起导航栏
@@ -116,33 +157,6 @@ export default {
       document.querySelector('#navbarNavAltMarkup').classList.remove('show');
     },
 
-    // 更新 body class
-    updateBodyClass() {
-      if (this.isDarkMode) {
-        document.body.classList.add("dark-mode");
-      } else {
-        document.body.classList.remove("dark-mode");
-      }
-    },
-
-    // 更新 PWA 颜色
-    PWAColor() {
-      if (this.isDarkMode) {
-        document
-          .querySelector('meta[name="theme-color"]')
-          .setAttribute("content", "#171a1d");
-        document
-          .querySelector('meta[name="background-color"]')
-          .setAttribute("content", "#212529");
-      } else {
-        document
-          .querySelector('meta[name="theme-color"]')
-          .setAttribute("content", "#f8f9fa");
-        document
-          .querySelector('meta[name="background-color"]')
-          .setAttribute("content", "#ffffff");
-      }
-    },
 
     // 点击 Logo 事件处理
     handleLogoClick() {
@@ -153,17 +167,54 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('checkDarkMode');
-    this.updateBodyClass();
-    this.PWAColor();
+    setTimeout(() => {
+      this.getGitHubStars();
+    }, 1000)
   },
 }
 </script>
 
 <style scoped>
-/*==================== Dark Light Button Implementation ====================*/
 .jn-checkbox {
   display: none;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from {
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+
+.jn-fs {
+  font-size: smaller;
+  display: flex;
+  max-height: 25pt;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.jn-w {
+  width: 60pt;
+}
+
+.redstar {
+  color: rgb(253 131 3);
+}
+
+.yellowstar {
+  color: rgb(255 216 0);
 }
 
 .switch {
@@ -255,5 +306,9 @@ export default {
   to {
     left: 100%;
   }
+}
+
+.preference-button {
+  margin-left: 8pt;
 }
 </style>

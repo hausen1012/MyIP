@@ -9,25 +9,28 @@
     </div>
 
     <div id="about" class="text-center mb-2">
-      <a class="link link-underline-offset link-underline-opacity-0" :class="[isDarkMode ? 'link-info' : 'link-dark']"
-        data-bs-toggle="offcanvas" href="#About" role="button" aria-controls="About"
-        @click="$trackEvent('Footer', 'FooterClick', 'About');">
+      <a class="link link-underline-offset link-underline-opacity-0" :class="[isDarkMode ? 'link-light' : 'link-dark']"
+        role="button" aria-controls="About" @click.prevent="openAbout">
         {{ $t('about.Title') }} <i class="bi bi-arrow-left-circle-fill"></i>
       </a>
     </div>
 
 
-    <div class="offcanvas offcanvas-end mt-5" :class="[isMobile ? ' w-100' : '']" tabindex="-1" id="About"
-      aria-labelledby="AboutLabel" :data-bs-theme="isDarkMode ? 'dark' : 'light'">
+    <div class="offcanvas offcanvas-end mt-5 border-0 h-100" :class="[isMobile ? ' w-100' : '']" tabindex="-1"
+      id="About" aria-labelledby="AboutLabel" :data-bs-theme="isDarkMode ? 'dark' : 'light'">
       <div class="offcanvas-header mt-3">
         <div class="btn-group" role="group">
-          <button type="button" class="btn" @click="toggleContent('about')"
-            :class="[showAbout ? 'btn-primary' : 'btn-outline-secondary']">{{ $t('about.Title') }}</button>
-          <button type="button" class="btn" @click="toggleContent('changlog')"
-            :class="[showChanglog ? 'btn-primary' : 'btn-outline-secondary']">
-            {{ $t('changelog.Title') }}
-          </button>
-
+          <template v-for="show in ['about', 'changelog']">
+            <input v-model="content" type="radio" class="btn-check" :name="'About_' + show" :id="'About_' + show"
+              autocomplete="off" :value=show @change="toggleContent(show)">
+            <label class="btn jn-number" :class="{
+              'btn-outline-dark': !isDarkMode,
+              'btn-outline-light': isDarkMode,
+              'active fw-bold': show === content
+            }" :for="'About_' + show">
+              {{ $t(show + '.Title') }}
+            </label>
+          </template>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
@@ -78,7 +81,7 @@
           <div v-html="$t('about.contact')" class="mb-3">
           </div>
         </div>
-        <div v-if="showChanglog">
+        <div v-if="showChangelog">
           <div v-for="(version, index) in changelog.slice().reverse()" :key="index" class="mb-4">
             <div class="row align-items-center">
               <div class="col-6 fw-bold fs-5">{{ version.version }}</div>
@@ -93,18 +96,22 @@
                 $t('changelog.improve') }}</span>
               <span v-else-if="item.type === 'fix'" class="badge  rounded-pill bg-danger fw-normal">{{
                 $t('changelog.fix')
-                }}</span>
+              }}</span>
               <span class="mx-2">{{ item.change }}</span>
             </div>
           </div>
         </div>
+
+        <div id="offcanvasPlaceholder mb-5" class="jn-placeholder mb-5">
+        </div>
+
       </div>
     </div>
 
     <div id="copyright" v-if="!configs.originalSite">
       <p class="text-center fs-6 fw-light" style="opacity: 0.5;">
         {{ $t('page.copyRightName') }} <a :href="$t('page.copyRightLink')" class="link-underline-light" target="_blank"
-          :class="[isDarkMode ? 'dark-mode link-light' : 'link-dark']">{{ $t('page.copyRightLinkName') }}</a>
+          :class="[isDarkMode ? 'link-light' : 'link-dark']">{{ $t('page.copyRightLinkName') }}</a>
       </p>
     </div>
   </footer>
@@ -113,6 +120,7 @@
 <script>
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { Offcanvas } from 'bootstrap';
 import '@khmyznikov/pwa-install';
 
 export default {
@@ -134,15 +142,29 @@ export default {
 
   data() {
     return {
+      content: 'about',
       showAbout: true,
-      showChanglog: false,
+      showChangelog: false,
       changelog: this.$tm('changelog.versions'),
     }
   },
   methods: {
+    openAbout() {
+      var offcanvasElement = document.getElementById('About');
+      var offcanvas = Offcanvas.getInstance(offcanvasElement) || new Offcanvas(offcanvasElement);
+      if (offcanvasElement.classList.contains('show')) {
+        offcanvas.hide();
+      } else {
+        offcanvas.show();
+      }
+
+      this.$trackEvent('Footer', 'FooterClick', 'About');
+
+    },
     toggleContent(contentType) {
       this.showAbout = contentType === 'about';
-      this.showChanglog = contentType === 'changlog';
+      this.showChangelog = contentType === 'changelog';
+      this.content = contentType;
       this.$refs.offcanvasBody.scrollTop = 0;
     },
   },
@@ -152,5 +174,9 @@ export default {
 <style scoped>
 #About {
   z-index: 1051;
+}
+
+.jn-placeholder {
+  height: 20pt;
 }
 </style>

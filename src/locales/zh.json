@@ -2,14 +2,91 @@
   "nav": {
     "id": "nav",
     "Title": "IPCheck.ing",
-    "IPinfo": "IP 信息",
+    "IPInfo": "IP 信息",
     "Connectivity": "网络连通性",
     "WebRTC": "WebRTC 测试",
     "DNSLeakTest": "DNS 泄漏测试",
     "SpeedTest": "网速测试",
     "PingTest": "全球延迟",
     "MTRTest": "MTR 测试",
-    "RuleTest": "分流测试"
+    "RuleTest": "分流测试",
+    "AdvancedTools": "高级工具",
+    "preferences": {
+      "title": "偏好设置",
+      "preferenceTips": "这些设置会保存在浏览器，方便下次使用。部分选项需要刷新页面方可生效。",
+      "colorScheme": "颜色方案",
+      "colorAuto": "跟随系统",
+      "colorLight": "白天",
+      "colorDark": "黑夜",
+      "ipSourcesToCheck": "IP 检测服务器数量",
+      "ipSourcesToCheckTips": "选择默认从多少个 IP 检测服务器获取 IP 信息。",
+      "appSettings": "程序设置",
+      "autoRun": "自动运行",
+      "autoRunTips": "关闭后，打开应用将只会进行本机 IP 检测，不会自动运行其它的测试。",
+      "showMap": "显示地图",
+      "showMapTips": "在 IP 信息卡片上显示地图。",
+      "simpleMode": "简洁模式",
+      "simpleModeTips": "减少 IP 卡片显示的内容。仅在手机上生效。",
+      "connectivityAutoRefresh": "多次刷新可用性检测",
+      "connectivityAutoRefreshTips": "开启多次刷新后，程序在启动时将运行 5 次检测，并显示最小延迟值。",
+      "popupConnectivityNotifications": "显示可用性检测气泡",
+      "popupConnectivityNotificationsTips": "开启后，将会在首次检测时以气泡形式提示可用性结果。",
+      "ipDB": "IP 解析数据源",
+      "ipDBTips": "你可以选择你默认使用的 IP 地理位置数据源，如果你选定的不可用，系统会依次使用后续的数据源。"
+    }
+  },
+  "censorshipcheck": {
+    "Title": "封锁测试",
+    "Note": "检查目标网站在全球互联网审查较为严重的 4 个地区的可用性，包括：中国大陆、沙特阿拉伯、俄罗斯、土耳其。检查时会同时从互联网相对自由的地区进行相同的测试，以作为对照组进行校验。在一些地区，互联网审查有较为明确的法律条文，有些则相对含糊。",
+    "Note2": "请输入 URL 或域名，开始封锁测试：",
+    "Note3": "只有当同一个国家的所有服务器都无法访问时，才会判断为被封锁",
+    "Run": "运行测试",
+    "Placeholder": "URL 或域名",
+    "Country": "地区",
+    "Status": "状态",
+    "City": "城市",
+    "Network": "网络",
+    "invalidURL": "无效的 URL 或域名",
+    "fetchError": "无法获取测试结果",
+    "isBlocked": "这个网站看起来在部分国家被封锁了，请参考上方的测试结果做最终判断。",
+    "notBlocked": "这个网站看起来没有被封锁了，请参考上方的测试结果做最终判断。",
+    "isDown": "无法判断这个网站是否被封锁，因为看起来它在全球许多位置都无法访问。如果你输入的地址是正确的，有可能网站本身出现了问题导致无法访问。",
+    "Timeout": "测试超时",
+    "TestGroup": "测试组",
+    "ControlGroup": "控制组"
+  },
+  "advancedtools": {
+    "Title": "高级工具",
+    "Note": "一些使用频率相对较低，但在进行网络测试时，非常有用的工具。",
+    "PingTestNote": "全球的 Ping 值测试",
+    "MTRTestNote": "全球的 MTR 路由测试",
+    "DNSResolverNote": "实时多渠道 DNS 解析",
+    "RuleTestNote": "检查代理软件的规则设置",
+    "CensorshipCheck": "检查一个网站在某些国家是否被封锁",
+    "Whois": "对域名或 IP 进行 Whois 查询"
+  },
+  "whois": {
+    "Title": "Whois 查询",
+    "Note": "Whois 查询是一种用于查询域名注册信息的服务。通过输入域名或 IP 地址，可以查询到域名的注册信息、注册商、注册日期、过期日期等信息。IP 与域名的 Whois 信息字段不完全一致。同时，部分比较小众的域名（TLD）可能无法查询到相关信息。",
+    "Note2": "请输入域名或 IP，开始进行查询：",
+    "Note3": "Whois 信息包含多种类型的字段，以下为原始文本信息",
+    "Placeholder": "域名或 IP",
+    "Run": "查询",
+    "invalidURL": "无效的域名或 IP",
+    "fetchError": "无法获取查询结果或查询结果为空",
+    "Provider": "信息服务商"
+  },
+  "dnsresolver": {
+    "Title": "DNS 解析",
+    "Note": "在一些地区，某些运营商可能会因为政治原因或者商业原因，对一些域名进行污染，以至于直接进行访问的时候，无法返回正确的结果。使用 DNS 解析检查，将帮助你从全球各个知名的 DNS 厂商里检查域名的解析结果。在检测内置的 DNS 中，有一部分服务商来自中国，其 DNS 解析的结果可能会受到污染。请注意鉴别。",
+    "Note2": "请输入 URL 或域名，开始进行解析：",
+    "Placeholder": "URL 或域名",
+    "Run": "解析",
+    "invalidURL": "无效的 URL 或域名",
+    "fetchError": "无法获取解析结果",
+    "Provider": "DNS 服务商",
+    "Result": "解析结果",
+    "Record": "记录"
   },
   "ruletest": {
     "Title": "分流测试",
@@ -24,7 +101,7 @@
     "RefreshConnectivityTests": "刷新连通性测试",
     "RefreshWebRTC": "刷新 WebRTC 测试",
     "RefreshDNSLeakTest": "刷新 DNS 泄漏测试",
-    "StartSpeedTest": "开始网速测试",
+    "SpeedTestButton": "开始/暂停网速测试",
     "ToggleMaps": "打开/关闭地图显示",
     "SourceSelect": "选择 IP 归属地数据来源",
     "ShowASNInfo": "显示 AS 详细信息",
@@ -36,8 +113,9 @@
   },
   "ipInfos": {
     "id": "ipinfos",
+    "database": "数据源",
     "Title": "IP 信息",
-    "Notes": "程序会先从 6 个不同的来源（包含 IPv4 和 IPv6）检查你的 IP 地址，然后通过你选择的 IP 地理位置信息源查询对应的地理数据。如果当前 IP 栈只有 1 个，则没有数据的来源会显示为空。",
+    "Notes": "程序会先从多个不同的来源（包含 IPv4 和 IPv6）检查你的 IP 地址，然后通过你选择的 IP 地理位置信息源查询对应的地理数据。如果当前 IP 栈只有 1 个，则没有数据的来源会显示为空。",
     "Simple": "简约",
     "Map": "地图",
     "MapUnavailable": "地图不可用",
@@ -120,7 +198,7 @@
   "speedtest": {
     "id": "speedtest",
     "Title": "网速测试",
-    "Note": "将从 Cloudflare 使用边沿网络进行速度测试，时间可能较长。如果你的网络位于中国大陆，数据可能会有较大的偏差。测速结果仅供参考，实际速度会更快。",
+    "Note": "将从 Cloudflare 使用边沿网络进行速度测试，时间可能较长。如果你的网络位于中国大陆，数据可能会有较大的偏差。测速结果仅供参考，实际速度会更快。你可以选择下载和上传的包大小进行测试。默认情况下，测速会进行 4 次数据包上传与下载，请注意流量消耗。",
     "Download": "下载",
     "Upload": "上传",
     "Latency": "延迟",
@@ -196,7 +274,11 @@
     "RefreshConnectivityTests": "刷新连通性测试",
     "RefreshWebRTC": "刷新 WebRTC 测试",
     "RefreshDNSLeakTest": "刷新 DNS 泄漏测试",
-    "StartSpeedTest": "开始网速测试",
+    "SpeedTestButton": "开始/暂停网速测试",
+    "PingTest": "打开全球延迟测试面板",
+    "MTRTest": "打开全球路由测试面板",
+    "RuleTest": "打开规则测试面板",
+    "DNSResolver": "打开 DNS 解析器面板",
     "ToggleMaps": "切换地图显示",
     "IPCheck": "IP 查询",
     "AddBingMapKey": "添加 Bing Map API Key",
@@ -205,7 +287,11 @@
     "HelpNote": "使用快捷键的人，是喜欢效率的人，你真棒！",
     "GoNext": "下一张卡片",
     "GoPrevious": "上一张卡片",
-    "RefreshRuleTests": "刷新规则测试"
+    "RefreshRuleTests": "刷新规则测试",
+    "CensorshipCheck": "打开封锁测试面板",
+    "Preferences": "打开偏好设置面板",
+    "About": "打开关于页面",
+    "Whois": "打开 Whois 查询面板"
   },
   "page": {
     "title": "IPCheck.ing - 查看我的 IP 地址 - 查询本机 IP 地址及归属地 - 查看 WebRTC 连接 IP - DNS 泄露检测 - 网速测试 - Jason Ng 阿禅开源作品",
@@ -485,6 +571,82 @@
           {
             "type": "improve",
             "change": "优化了部分逻辑"
+          }
+        ]
+      },
+      {
+        "version": "v3.6",
+        "date": "Mar 10, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "添加 DNS 解析功能"
+          },
+          {
+            "type": "improve",
+            "change": "优化主页结构，高级功能折叠展示"
+          },
+          {
+            "type": "improve",
+            "change": "优化了程序逻辑"
+          }
+        ]
+      },
+      {
+        "version": "v3.7",
+        "date": "Apr 26, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "添加封锁测试功能"
+          },
+          {
+            "type": "add",
+            "change": "网速测试可以自定义数据包大小"
+          },
+          {
+            "type": "improve",
+            "change": "优化了部分功能逻辑"
+          }
+        ]
+      },
+      {
+        "version": "v3.8",
+        "date": "May 4, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "增加设置面板，可以在本地保存偏好设置"
+          },
+          {
+            "type": "add",
+            "change": "可以自定义程序在第二次启动时的多个默认行为"
+          },
+          {
+            "type": "improve",
+            "change": "大量优化了程序的逻辑"
+          },
+          {
+            "type": "fix",
+            "change": "修复了一些小问题"
+          }
+        ]
+      },
+      {
+        "version": "v3.9",
+        "date": "May 8, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "增加 Whois 查询功能"
+          },
+          {
+            "type": "improve",
+            "change": "优化高级功能的展示与动画效果"
+          },
+          {
+            "type": "fix",
+            "change": "修复了一些小问题"
           }
         ]
       }

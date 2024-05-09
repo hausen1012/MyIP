@@ -2,7 +2,7 @@
   <!-- Ping Test -->
   <div class="ping-test-section mb-4">
     <div class="jn-title2">
-      <h2 id="PingTest" :class="{ 'mobile-h2': isMobile }">🌐 {{ $t('pingtest.Title') }}</h2>
+      <h2 id="PingTest" :class="{ 'mobile-h2': isMobile }">⏱️ {{ $t('pingtest.Title') }}</h2>
 
     </div>
     <div class="text-secondary">
@@ -19,16 +19,14 @@
                 <label for="pingIP" class="col-form-label">{{ $t('pingtest.Note3') }}</label>
               </div>
               <div class="col-12 col-md-auto mt-2 mt-md-0">
-                <div class="row justify-content-between">
-                  <div class="col-auto">
-                    <select id="pingIP" class="form-select jn-ping-form-select" v-model="selectedIP"
+                <div class="input-group ">
+                    <select id="pingIP" aria-label="Select IP to Ping" class="form-select jn-ping-form-select" v-model="selectedIP"
                       :class="{ 'bg-dark text-light': isDarkMode }">
                       <option disabled value="">{{ $t('pingtest.SelectIP') }}</option>
                       <option v-for="ip in allIPs" :key="ip" :value="ip">{{ ip }}</option>
                     </select>
-                  </div>
-                  <div class="col-auto">
-                    <button class="btn btn-success" @click="startPingCheck"
+                  
+                    <button class="btn btn-primary" @click="startPingCheck"
                       :disabled="pingCheckStatus === 'running' || selectedIP === ''">
                       <span
                         v-if="pingCheckStatus === 'idle' || pingCheckStatus === 'finished' || pingCheckStatus === 'error'">{{
@@ -36,7 +34,6 @@
                       <span v-if="pingCheckStatus === 'running'" class="spinner-grow spinner-grow-sm"
                         aria-hidden="true"></span>
                     </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -44,7 +41,7 @@
             <!-- Result Display -->
             <div id="pingresult" v-if="pingResults.length > 0">
               <div class="table-responsive text-nowrap">
-                <table class="table" :class="{ 'table-dark': isDarkMode }">
+                <table class="table table-hover" :class="{ 'table-dark': isDarkMode }">
                   <thead>
                     <tr>
                       <th scope="col">{{ $t('pingtest.Region') }}</th>

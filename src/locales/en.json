@@ -2,14 +2,91 @@
   "nav": {
     "id": "nav",
     "Title": "IPCheck.ing",
-    "IPinfo": "IP Infos",
+    "IPInfo": "IP Infos",
     "Connectivity": "Connectivity",
     "WebRTC": "WebRTC Test",
     "DNSLeakTest": "DNS Leak Test",
     "SpeedTest": "Speed Test",
     "PingTest": "Global Latency",
     "MTRTest": "MTR Test",
-    "RuleTest": "Rule Test"
+    "RuleTest": "Rule Test",
+    "AdvancedTools": "Advanced Tools",
+    "preferences": {
+      "title": "Preferences",
+      "preferenceTips": "These settings are saved in your browser for easy reuse. Some options require refreshing the page to take effect.",
+      "colorScheme": "Color Scheme",
+      "colorAuto": "Auto",
+      "colorLight": "Day",
+      "colorDark": "Night",
+      "ipSourcesToCheck": "Servers To Check IPs",
+      "ipSourcesToCheckTips": "Select the number of servers to check your IP address. The more servers you select, the more time it will take to complete the check.",
+      "appSettings": "Program Settings",
+      "autoRun": "Auto Run",
+      "autoRunTips": "If disabled, the app will only check the local IP and will not run tests automatically.",
+      "showMap": "Show Map",
+      "showMapTips": "Displays a map on the IP info card.",
+      "simpleMode": "Simple Mode",
+      "simpleModeTips": "Reduces the information displayed on IP cards. Effective on mobile devices only.",
+      "connectivityAutoRefresh": "Multiple Connectivity Refreshes",
+      "connectivityAutoRefreshTips": "When enabled, the app runs five checks at startup and displays the lowest latency.",
+      "popupConnectivityNotifications": "Pop-up Connectivity Alerts",
+      "popupConnectivityNotificationsTips": "When enabled, the initial check's results are shown as a pop-up alert.",
+      "ipDB": "IP Geolocation Database",
+      "ipDBTips": "You can select the default IP geolocation source to use. If the selected source is unavailable, the system will use the subsequent sources in order."
+    }
+  },
+  "censorshipcheck": {
+    "Title": "Censorship Check",
+    "Note": "Checks the availability of target websites in four regions known for rigorous internet censorship, including: Mainland China, Saudi Arabia, Russia, and Turkey. Tests are also conducted from regions with relatively free internet as a control group for verification. Some regions have clear legal provisions for internet censorship, while others are more vague.",
+    "Note2": "Please enter a URL or domain name to start the censorship test:",
+    "Note3": "A website is only considered blocked if it cannot be accessed from all servers within the same country.",
+    "Run": "Run Test",
+    "Placeholder": "URL or Domain Name",
+    "Country": "Region",
+    "Status": "Status",
+    "City": "City",
+    "Network": "Network",
+    "invalidURL": "Invalid URL or Domain Name",
+    "fetchError": "Unable to fetch test results",
+    "isBlocked": "This website appears to be blocked in some countries, please refer to the test results above for a final determination.",
+    "notBlocked": "This website does not appear to be blocked, please refer to the test results above for a final determination.",
+    "isDown": "It's unclear whether this website is blocked, as it appears to be inaccessible from many locations worldwide. If the address you entered is correct, it's possible that the website itself is having issues and cannot be accessed.",
+    "Timeout": "Test Timeout",
+    "TestGroup": "Test Group",
+    "ControlGroup": "Control Group"
+  },
+  "advancedtools": {
+    "Title": "Advanced Tools",
+    "Note": "Tools that are used relatively infrequently, but are very useful when performing network testing.",
+    "PingTestNote": "Global Ping value test",
+    "MTRTestNote": "Global MTR route test",
+    "DNSResolverNote": "Real-time multi-channel DNS resolution",
+    "RuleTestNote": "Check the rule settings of proxy software",
+    "CensorshipCheck": "Check if a website is blocked in some countries",
+    "Whois": "Search for domain/IP registration information"
+  },
+  "whois": {
+    "Title": "Whois Search",
+    "Note": "Whois search is a service used to retrieve domain registration information. By entering a domain name or IP address, you can retrieve information such as the domain's registration details, registrar, registration date, expiration date, and more. The Whois information for IP addresses and domain names may have different fields. Additionally, some less common top-level domains (TLDs) may not have available information for Whois queries.",
+    "Note2": "Please enter a domain name or IP address to start the query:",
+    "Note3": "Whois information contains various types of fields. The following is the raw text information",
+    "Placeholder": "Domain Name or IP",
+    "Run": "Query",
+    "invalidURL": "Invalid domain name or IP",
+    "fetchError": "Unable to fetch query results or query results are empty",
+    "Provider": "Information Provider"
+  },
+  "dnsresolver": {
+    "Title": "DNS Resolution",
+    "Note": "In some regions, due to political or commercial reasons, some operators may contaminate certain domain names, resulting in incorrect results when accessed directly. Using DNS resolution checks will help you inspect the resolution results of domain names from well-known DNS providers around the world. Among the built-in DNS tests, some providers are from China, whose DNS resolution results may be contaminated. Please be discerning.",
+    "Note2": "Please enter a URL or domain name to start resolution:",
+    "Placeholder": "URL or Domain Name",
+    "Run": "Run",
+    "invalidURL": "Invalid URL or Domain Name",
+    "fetchError": "Unable to fetch resolution results",
+    "Provider": "DNS Provider",
+    "Result": "Resolution Result",
+    "Record": "Record"
   },
   "ruletest": {
     "Title": "Rule Test",
@@ -24,7 +101,7 @@
     "RefreshConnectivityTests": "Refresh Connectivity Tests",
     "RefreshWebRTC": "Refresh WebRTC Test",
     "RefreshDNSLeakTest": "Refresh DNS Leak Test",
-    "StartSpeedTest": "Start Speed Test",
+    "SpeedTestButton": "Start/Pause Speed Test",
     "ToggleMaps": "Show/Hide Maps",
     "SourceSelect": "Select IP Geolocation Source",
     "ShowASNInfo": "Show AS Details",
@@ -36,8 +113,9 @@
   },
   "ipInfos": {
     "id": "ipinfos",
+    "database": "Database",
     "Title": "IP Infos",
-    "Notes": "The program will first check your IP address from 6 different sources (including IPv4 and IPv6), and then query the corresponding geographical data from the IP geolocation source you selected. If there is only 1 IP stack, the source without data will be displayed as empty.",
+    "Notes": "The program will first check your IP address from different sources (including IPv4 and IPv6), and then query the corresponding geographical data from the IP geolocation source you selected. If there is only 1 IP stack, the source without data will be displayed as empty.",
     "Simple": "Simple",
     "Map": "Map",
     "MapUnavailable": "Map Unavailable",
@@ -120,7 +198,7 @@
   "speedtest": {
     "id": "speedtest",
     "Title": "Speed Test",
-    "Note": "Speed test will be done via Cloudflare's edge network, which may take a long time. If your network is located in mainland China, the data may be biased. The speed test results are for reference only, the actual speed will be faster.",
+    "Note": "Speed test will be done via Cloudflare's edge network, which may take a long time. If your network is located in mainland China, the data may be biased. The speed test results are for reference only, the actual speed will be faster. You can choose the packet size for download and upload tests. By default, the speed test will perform 4 rounds of packet uploads and downloads, please be mindful of data usage.",
     "Download": "Download",
     "Upload": "Upload",
     "Latency": "Latency",
@@ -196,16 +274,23 @@
     "RefreshConnectivityTests": "Refresh Connectivity Tests",
     "RefreshWebRTC": "Refresh WebRTC Test",
     "RefreshDNSLeakTest": "Refresh DNS Leak Test",
-    "StartSpeedTest": "Start Speed Test",
+    "SpeedTestButton": "Start/Pause Speed Test",
+    "PingTest": "Open Global Latency Test panel",
+    "MTRTest": "Open MTR Test panel",
+    "RuleTest": "Open Rule Test panel",
+    "DNSResolver": "Open DNS Resolution panel",
     "ToggleMaps": "Toggle Maps",
-    "IPCheck": "IP Check",
+    "IPCheck": "Query IP Address",
     "AddBingMapKey": "Add Bing Map API Key",
     "ToggleInfoMask": "Toggle Info Masking",
     "Help": "Show Shortcut Keys",
     "HelpNote": "People who use shortcuts are really awesome!",
     "GoNext": "Next Card",
     "GoPrevious": "Previous Card",
-    "RefreshRuleTests": "Refresh Rule Tests"
+    "RefreshRuleTests": "Refresh Rule Tests",
+    "CensorshipCheck": "Open Censorship Check panel",
+    "Preferences": "Open Preferences",
+    "About": "Open About panel"
   },
   "page": {
     "title": "IPCheck.ing - Check My IP Address and Geolocation - Check WebRTC Connection IP - DNS Leak Test - Speed Test - Jason Ng Open Source",
@@ -226,7 +311,7 @@
     "Error": "Please enter a valid Bing Map API Key."
   },
   "helpModal": {
-    "Title": "Shortcuts"
+    "Title": "Keyboard Shortcuts"
   },
   "about": {
     "Title": "About",
@@ -485,6 +570,82 @@
           {
             "type": "improve",
             "change": "Some Improvements"
+          }
+        ]
+      },
+      {
+        "version": "v3.6",
+        "date": "Mar 10, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "Added DNS resolution feature"
+          },
+          {
+            "type": "improve",
+            "change": "Optimized home page structure, advanced features are now collapsible"
+          },
+          {
+            "type": "improve",
+            "change": "Optimized program logic"
+          }
+        ]
+      },
+      {
+        "version": "v3.7",
+        "date": "Apr 26, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "Added censorship test feature"
+          },
+          {
+            "type": "add",
+            "change": "Network speed test now allows custom packet size"
+          },
+          {
+            "type": "improve",
+            "change": "Optimized some functional logic"
+          }
+        ]
+      },
+      {
+        "version": "v3.8",
+        "date": "May 4, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "Added preferences panel to save settings locally"
+          },
+          {
+            "type": "add",
+            "change": "Allow customization of multiple default behaviors on second program launch"
+          },
+          {
+            "type": "improve",
+            "change": "Significantly optimized program logic"
+          },
+          {
+            "type": "fix",
+            "change": "Fixed some minor issues"
+          }
+        ]
+      },
+      {
+        "version": "v3.9",
+        "date": "May 8, 2024",
+        "content": [
+          {
+            "type": "add",
+            "change": "Added Whois search feature"
+          },
+          {
+            "type": "improve",
+            "change": "Optimized display and animation effects for advanced tools"
+          },
+          {
+            "type": "fix",
+            "change": "Fixed some minor issues"
           }
         ]
       }

@@ -1,6 +1,6 @@
 <template>
   <NavBar ref="navBarRef" />
-  <!-- Alerts -->
+  <Preferences ref="preferencesRef" />
   <div class="toast-container position-fixed bottom-0 end-0 p-3 jn-toast">
     <div id="toastInfoMask" class="toast" :class="{ 'dark-mode': isDarkMode }" role="alert" ref="toast"
       aria-live="assertive" aria-atomic="true">
@@ -21,10 +21,8 @@
       <Connectivity ref="connectivityRef" />
       <WebRTC ref="webRTCRef" />
       <DNSLeaks ref="dnsLeaksRef" />
-      <RuleTest ref="ruleTestRef" />
       <SpeedTest ref="speedTestRef" />
-      <GlobalLatency ref="globalLatencyRef" />
-      <MTRtest ref="mtrtestRef" />
+      <AdvancedTools ref="advancedToolsRef" />
       <QueryIP ref="queryIPRef" />
       <HelpModal ref="helpModalRef" />
       <!-- Info Mask BTN-->
@@ -36,7 +34,7 @@
       </button>
     </div>
   </div>
-  <Footer />
+  <Footer ref="footerRef" />
   <PWA />
 </template>
 
@@ -47,18 +45,17 @@ import Connectivity from './components/connectivity.vue'
 import WebRTC from './components/webrtc.vue'
 import DNSLeaks from './components/dnsleaks.vue'
 import SpeedTest from './components/speedtest.vue'
-import GlobalLatency from './components/globallatency.vue'
-import MTRtest from './components/mtrtest.vue'
 import Footer from './components/footer.vue'
 import QueryIP from './components/queryip.vue'
 import HelpModal from './components/help.vue'
 import PWA from './components/pwa.vue'
-import RuleTest from './components/ruletest.vue'
+import AdvancedTools from './components/advancedtools.vue'
+import Preferences from './components/preferences.vue';
 import { mappingKeys, navigateCards, keyMap } from "./shortcut.js";
 
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Modal, Toast } from 'bootstrap';
+import { Modal, Toast, Offcanvas } from 'bootstrap';
 
 export default {
 
@@ -67,6 +64,8 @@ export default {
     const store = useStore();
     const isDarkMode = computed(() => store.state.isDarkMode);
     const isMobile = computed(() => store.state.isMobile);
+    const configs = computed(() => store.state.configs);
+    const userPreferences = computed(() => store.state.userPreferences);
     const shouldRefreshEveryThing = computed(() => store.state.shouldRefreshEveryThing);
     const shouldRefresh = ref(false);
 
@@ -78,6 +77,8 @@ export default {
       isDarkMode,
       isMobile,
       shouldRefresh,
+      configs,
+      userPreferences,
     };
   },
 
@@ -88,13 +89,12 @@ export default {
     WebRTC,
     DNSLeaks,
     SpeedTest,
-    GlobalLatency,
-    MTRtest,
     Footer,
     QueryIP,
     HelpModal,
     PWA,
-    RuleTest,
+    AdvancedTools,
+    Preferences,
   },
   name: 'App',
   data() {
@@ -105,7 +105,6 @@ export default {
       originipDataCards: [],
       originstunServers: [],
       originleakTest: [],
-      originRuleTests: [],
       alertToShow: false,
       alertStyle: "",
       alertMessage: "",
@@ -183,7 +182,7 @@ export default {
     refreshEverything() {
       const refreshTasks = [
         { action: () => this.$refs.IPCheckRef.checkAllIPs(), delay: 0 },
-        { action: () => this.$refs.connectivityRef.checkAllConnectivity(false, true), delay: 2000 },
+        { action: () => this.$refs.connectivityRef.checkAllConnectivity(false, true, true), delay: 2000 },
         { action: () => this.$refs.webRTCRef.checkAllWebRTC(true), delay: 4000 },
         { action: () => this.$refs.dnsLeaksRef.checkAllDNSLeakTest(true), delay: 2500 },
         { action: () => this.refreshingAlert(), delay: 500 },
@@ -209,7 +208,6 @@ export default {
         this.originipDataCards = JSON.parse(JSON.stringify(this.$refs.IPCheckRef.ipDataCards));
         this.originstunServers = JSON.parse(JSON.stringify(this.$refs.webRTCRef.stunServers));
         this.originleakTest = JSON.parse(JSON.stringify(this.$refs.dnsLeaksRef.leakTest));
-        this.originRuleTests = JSON.parse(JSON.stringify(this.$refs.ruleTestRef.ruleTests));
         this.infoMask();
         this.alertStyle = "text-warning";
         this.alertMessage = this.$t('alert.maskedInfoMessage_1');
@@ -237,16 +235,17 @@ export default {
     infoMask() {
       if (this.infoMaskLevel === 0) {
         this.$refs.IPCheckRef.ipDataCards.forEach((card) => {
-          card.ip = "8.8.8.8";
+          if (card.id === "cloudflare_v6" || card.id === "ipify_v6") {
+            card.ip = "2001:4860:4860::8888";
+          } else {
+            card.ip = "8.8.8.8";
+          }
         });
         this.$refs.webRTCRef.stunServers.forEach((server) => {
           server.ip = "100.100.200.100";
         });
         this.$refs.dnsLeaksRef.leakTest.forEach((server) => {
           server.ip = "12.34.56.78";
-        });
-        this.$refs.ruleTestRef.ruleTests.forEach((test) => {
-          test.ip = "8.8.8.8";
         });
         this.infoMaskLevel = 1;
       } else if (this.infoMaskLevel === 1) {
@@ -259,15 +258,17 @@ export default {
           card.longitude = "-122.078514";
           card.isp = "Google LLC";
           card.asn = "AS15169";
-          card.mapUrl = '/defaultMap.webp';
+          card.asnlink = "https://radar.cloudflare.com/AS15169",
+            card.mapUrl = '/defaultMap.webp';
           card.mapUrl_dark = '/defaultMap_dark.webp';
           card.showASNInfo = false;
+          card.isProxy = this.$t('ipInfos.proxyDetect.no');
+          card.type = this.$t('ipInfos.proxyDetect.type.Business');
+          card.proxyProtocol = this.$t('ipInfos.proxyDetect.unknownProtocol');
+          card.proxyOperator = "unknown";
         });
         this.$refs.dnsLeaksRef.leakTest.forEach((server) => {
           server.geo = "United States";
-        });
-        this.$refs.ruleTestRef.ruleTests.forEach((test) => {
-          test.country_code = "US";
         });
         this.infoMaskLevel = 2;
       }
@@ -278,7 +279,6 @@ export default {
       this.$refs.IPCheckRef.ipDataCards = JSON.parse(JSON.stringify(this.originipDataCards));
       this.$refs.webRTCRef.stunServers = JSON.parse(JSON.stringify(this.originstunServers));
       this.$refs.dnsLeaksRef.leakTest = JSON.parse(JSON.stringify(this.originleakTest));
-      this.$refs.ruleTestRef.ruleTests = JSON.parse(JSON.stringify(this.originRuleTests));
       this.infoMaskLevel = 0;
     },
 
@@ -359,14 +359,6 @@ export default {
           description: this.$t('shortcutKeys.GoToBottom'),
         },
         {
-          keys: "D",
-          action: () => {
-            this.$refs.navBarRef.toggleDarkMode(),
-              this.$trackEvent('ShortCut', 'ShortCut', 'ToggleDarkMode');
-          },
-          description: this.$t('shortcutKeys.ToggleDarkMode'),
-        },
-        {
           keys: "R",
           action: () => {
             this.$store.commit('setRefreshEveryThing', true);
@@ -379,6 +371,9 @@ export default {
           keys: "([1-6])",
           type: "regex",
           action: (num) => {
+            if (num > this.userPreferences.ipCardsToShow) {
+              return
+            }
             const card = this.$refs.IPCheckRef.ipDataCards[num - 1];
             this.scrollToElement("IPInfo-" + num, 171);
             this.$refs.IPCheckRef.refreshCard(card);
@@ -390,7 +385,7 @@ export default {
           keys: "c",
           action: () => {
             this.scrollToElement("Connectivity", 80);
-            this.$refs.connectivityRef.checkAllConnectivity(false, true);
+            this.$refs.connectivityRef.checkAllConnectivity(false, true, true);
             this.$trackEvent('ShortCut', 'ShortCut', 'Connectivity');
           },
           description: this.$t('shortcutKeys.RefreshConnectivityTests'),
@@ -405,15 +400,6 @@ export default {
           description: this.$t('shortcutKeys.RefreshWebRTC'),
         },
         {
-          keys: "r",
-          action: () => {
-            this.scrollToElement("RuleTest", 80);
-            this.$refs.ruleTestRef.checkAllRuleTest(true);
-            this.$trackEvent('ShortCut', 'ShortCut', 'WebRTC');
-          },
-          description: this.$t('shortcutKeys.RefreshRuleTests'),
-        },
-        {
           keys: "d",
           action: () => {
             this.scrollToElement("DNSLeakTest", 80);
@@ -426,17 +412,71 @@ export default {
           keys: "s",
           action: () => {
             this.scrollToElement("SpeedTest", 80);
-            this.$refs.speedTestRef.refreshstartSpeedTest();
+            this.$refs.speedTestRef.speedTestController();
             this.$trackEvent('ShortCut', 'ShortCut', 'SpeedTest');
           },
-          description: this.$t('shortcutKeys.StartSpeedTest'),
+          description: this.$t('shortcutKeys.SpeedTestButton'),
+        },
+        {
+          keys: "l",
+          action: () => {
+            this.scrollToElement("AdvancedTools", 80);
+            this.$refs.advancedToolsRef.navigateAndToggleOffcanvas('/pingtest');
+            this.$trackEvent('Nav', 'NavClick', 'PingTest');
+          },
+          description: this.$t('shortcutKeys.PingTest'),
+        },
+        {
+          keys: "t",
+          action: () => {
+            this.scrollToElement("AdvancedTools", 80);
+            this.$refs.advancedToolsRef.navigateAndToggleOffcanvas('/mtrtest');
+            this.$trackEvent('Nav', 'NavClick', 'MTRTest');
+          },
+          description: this.$t('shortcutKeys.MTRTest'),
+        },
+        {
+          keys: "r",
+          action: () => {
+            this.scrollToElement("AdvancedTools", 80);
+            this.$refs.advancedToolsRef.navigateAndToggleOffcanvas('/ruletest');
+            this.$trackEvent('Nav', 'NavClick', 'RuleTest');
+          },
+          description: this.$t('shortcutKeys.RuleTest'),
+        },
+        {
+          keys: "n",
+          action: () => {
+            this.scrollToElement("AdvancedTools", 80);
+            this.$refs.advancedToolsRef.navigateAndToggleOffcanvas('/dnsresolver');
+            this.$trackEvent('Nav', 'NavClick', 'DNSResolver');
+          },
+          description: this.$t('shortcutKeys.DNSResolver'),
+        },
+        {
+          keys: "b",
+          action: () => {
+            this.scrollToElement("AdvancedTools", 80);
+            this.$refs.advancedToolsRef.navigateAndToggleOffcanvas('/censorshipcheck');
+            this.$trackEvent('Nav', 'NavClick', 'CensorshipCheck');
+          },
+          description: this.$t('shortcutKeys.CensorshipCheck'),
+        },
+        {
+          keys: "w",
+          action: () => {
+            this.scrollToElement("AdvancedTools", 80);
+            this.$refs.advancedToolsRef.navigateAndToggleOffcanvas('/whois');
+            this.$trackEvent('Nav', 'NavClick', 'Whois');
+          },
+          description: this.$t('shortcutKeys.Whois'),
         },
         {
           keys: "m",
           action: () => {
-            if (this.$refs.IPCheckRef.isEnvBingMapKey) {
+            if (this.configs.bingMap) {
               window.scrollTo({ top: 0, behavior: "smooth" });
-              this.$refs.IPCheckRef.toggleMaps();
+              this.$refs.preferencesRef.toggleMaps();
             };
             this.$trackEvent('ShortCut', 'ShortCut', 'ToggleMaps');
           },
@@ -459,7 +499,22 @@ export default {
           },
           description: this.$t('shortcutKeys.ToggleInfoMask'),
         },
-
+        {
+          keys: "p",
+          action: () => {
+            this.$refs.navBarRef.OpenPreferences();
+            this.$trackEvent('ShortCut', 'ShortCut', 'Preferences');
+          },
+          description: this.$t('shortcutKeys.Preferences'),
+        },
+        {
+          keys: "a",
+          action: () => {
+            this.$refs.footerRef.openAbout();
+            this.$trackEvent('ShortCut', 'ShortCut', 'About');
+          },
+          description: this.$t('shortcutKeys.About'),
+        },
         // help
         {
           keys: "?",
@@ -502,6 +557,32 @@ export default {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
       );
     },
+
+    // 监听所有 offcanvas，避免同时打开多个导致浏览器崩溃
+    listenOffcanvas() {
+      const offcanvasElements = document.querySelectorAll('.offcanvas');
+      const navElements = document.getElementById('navbarNavAltMarkup');
+      const navElementsButton = document.querySelector('.navbar-toggler');
+      offcanvasElements.forEach((element) => {
+        const instance = Offcanvas.getOrCreateInstance(element); // 确保实例创建成功
+        element.addEventListener('show.bs.offcanvas', () => {
+          // 存在 Offcanvas 时关闭导航栏
+          navElements.classList.remove('show');
+          navElementsButton.setAttribute('aria-expanded', 'false');
+          navElementsButton.classList.add('collapsed');
+          // 关闭所有其他的 offcanvas
+          offcanvasElements.forEach((offcanvas) => {
+            if (offcanvas !== element) {
+              const offcanvasInstance = Offcanvas.getInstance(offcanvas);
+              if (offcanvasInstance) { // 确保实例有效
+                offcanvasInstance.hide();
+              }
+            }
+          });
+        });
+      });
+    },
+
   },
   mounted() {
     this.registerShortcutKeys();
@@ -509,6 +590,7 @@ export default {
     this.keyMap = keyMap;
     this.sendKeyMap();
     this.setInfosLoaded();
+    this.listenOffcanvas();
     window.addEventListener('scroll', this.checkSectionsAndTrack);
   },
   beforeDestroy() {

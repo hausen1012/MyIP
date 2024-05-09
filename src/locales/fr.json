@@ -2,14 +2,91 @@
     "nav": {
         "id": "nav",
         "Title": "IPCheck.ing",
-        "IPinfo": "Infos IP",
+        "IPInfo": "Infos IP",
         "Connectivity": "Connectivité",
         "WebRTC": "Test WebRTC",
         "DNSLeakTest": "Test de fuite DNS",
         "SpeedTest": "Test de vitesse",
         "PingTest": "Latence mondiale",
         "MTRTest": "Test MTR",
-        "RuleTest": "Test de règles"
+        "RuleTest": "Test de règles",
+        "AdvancedTools": "Outils avancés",
+        "preferences": {
+            "title": "Préférences",
+            "preferenceTips": "Ces paramètres sont enregistrés dans votre navigateur pour une utilisation ultérieure. Certains paramètres nécessitent un rafraîchissement de la page pour prendre effet.",
+            "colorScheme": "Schéma de Couleurs",
+            "colorAuto": "Par Défaut Système",
+            "colorLight": "Jour",
+            "colorDark": "Nuit",
+            "ipSourcesToCheck": "Serveurs pour vérifier les adresses IP",
+            "ipSourcesToCheckTips": "Sélectionnez le nombre de serveurs pour vérifier votre adresse IP. Plus vous en sélectionnez, plus cela prendra de temps pour terminer la vérification.",
+            "appSettings": "Paramètres de l'App",
+            "autoRun": "Exécution Automatique",
+            "autoRunTips": "Si désactivé, l'appli vérifiera seulement l'IP local et n'exécutera pas de tests automatiquement.",
+            "showMap": "Afficher la Carte",
+            "showMapTips": "Affiche une carte sur la carte d'info IP.",
+            "simpleMode": "Mode Simple",
+            "simpleModeTips": "Réduit les informations affichées sur les cartes IP. Effectif uniquement sur les appareils mobiles.",
+            "connectivityAutoRefresh": "Rafraîchissements Multiples de Connectivité",
+            "connectivityAutoRefreshTips": "Activé, l'appli effectue cinq vérifications au démarrage et affiche le délai le plus bas.",
+            "popupConnectivityNotifications": "Alertes de Connectivité Pop-up",
+            "popupConnectivityNotificationsTips": "Activé, les résultats de la première vérification sont affichés sous forme d'alerte pop-up.",
+            "ipDB": "Base de données de géolocalisation IP",
+            "ipDBTips": "Vous pouvez sélectionner la source de données de géolocalisation IP par défaut. Si la source sélectionnée n'est pas disponible, le système utilisera les sources suivantes."
+        }
+    },
+    "censorshipcheck": {
+        "Title": "Test de censorship",
+        "Note": "Vérifie la disponibilité des sites cibles dans quatre régions connues pour une censure internet rigoureuse, incluant : la Chine continentale, l'Arabie Saoudite, la Russie, et la Turquie. Des tests sont également réalisés depuis des régions où l'internet est relativement libre, servant de groupe témoin pour la vérification. Certaines régions disposent de dispositions légales claires sur la censure internet, tandis que d'autres sont plus vagues.",
+        "Note2": "Veuillez entrer une URL ou un nom de domaine pour commencer le test de censure :",
+        "Note3": "Un site est considéré comme bloqué uniquement si aucun serveur dans le même pays ne peut y accéder.",
+        "Run": "Lancer le Test",
+        "Placeholder": "URL ou Nom de Domaine",
+        "Country": "Région",
+        "Status": "Statut",
+        "City": "Ville",
+        "Network": "Réseau",
+        "invalidURL": "URL ou Nom de Domaine invalide",
+        "fetchError": "Impossible de récupérer les résultats des tests",
+        "isBlocked": "Ce site semble être bloqué dans certains pays, veuillez vous référer aux résultats des tests ci-dessus pour une détermination finale.",
+        "notBlocked": "Ce site ne semble pas être bloqué, veuillez vous référer aux résultats des tests ci-dessus pour une détermination finale.",
+        "isDown": "Il est difficile de déterminer si ce site est bloqué, car il semble inaccessible de nombreux endroits dans le monde. Si l'adresse que vous avez entrée est correcte, il est possible que le site lui-même rencontre des problèmes et ne soit pas accessible.",
+        "Timeout": "Délai d'Attente du Test",
+        "TestGroup": "Groupe de Test",
+        "ControlGroup": "Groupe Témoin"
+    },
+    "advancedtools": {
+        "Title": "Outils avancés",
+        "Note": "Certains outils sont utilisés relativement rarement, mais sont très utiles lors des tests de réseaux.",
+        "PingTestNote": "Test de la valeur Ping mondiale",
+        "MTRTestNote": "Test de route MTR mondial",
+        "DNSResolverNote": "Résolution DNS multi-canal en temps réel",
+        "RuleTestNote": "Vérifiez les paramètres de règles du logiciel de proxy",
+        "CensorshipCheck": "Vérifier si un site est bloqué dans certains pays",
+        "Whois": "Recherche d'informations sur l'enregistrement de domaine/IP"
+    },
+    "whois": {
+        "Title": "Recherche Whois",
+        "Note": "La recherche Whois est un service utilisé pour récupérer des informations sur l'enregistrement d'un domaine. En entrant un nom de domaine ou une adresse IP, vous pouvez obtenir des informations telles que les détails d'enregistrement du domaine, le registraire, la date d'enregistrement, la date d'expiration, et plus encore. Les informations Whois pour les adresses IP et les noms de domaine peuvent avoir des champs différents. De plus, certains domaines de premier niveau (TLD) moins courants peuvent ne pas avoir d'informations disponibles pour les requêtes Whois.",
+        "Note2": "Veuillez entrer un nom de domaine ou une adresse IP pour démarrer la requête :",
+        "Note3": "Whois informations contient plusieurs types de champs, voici le texte brut original",
+        "Placeholder": "Nom de domaine ou IP",
+        "Run": "Rechercher",
+        "invalidURL": "Nom de domaine ou IP invalide",
+        "fetchError": "Impossible de récupérer les résultats de la requête ou les résultats de la requête sont vides",
+        "Provider": "Fournisseur d'informations"
+    },
+    "dnsresolver": {
+        "Title": "Résolution DNS",
+        "Note": "Dans certaines régions, pour des raisons politiques ou commerciales, certains opérateurs peuvent contaminer certains noms de domaine, entraînant des résultats incorrects lorsqu'ils sont accédés directement. L'utilisation de vérifications de résolution DNS vous aidera à inspecter les résultats de résolution de noms de domaine auprès de fournisseurs DNS renommés dans le monde entier. Parmi les tests DNS intégrés, certains fournisseurs sont originaires de Chine, dont les résultats de résolution DNS peuvent être contaminés. Veuillez faire preuve de discernement.",
+        "Note2": "Veuillez entrer une URL ou un nom de domaine pour commencer la résolution :",
+        "Placeholder": "URL ou Nom de Domaine",
+        "Run": "Exécuter",
+        "invalidURL": "URL ou Nom de Domaine invalide",
+        "fetchError": "Impossible de récupérer les résultats de résolution",
+        "Provider": "Fournisseur DNS",
+        "Result": "Résultat de la Résolution",
+        "Record": "Enregistrement"
     },
     "ruletest": {
         "Title": "Test de règles",
@@ -24,7 +101,7 @@
         "RefreshConnectivityTests": "Actualiser les tests de connectivité",
         "RefreshWebRTC": "Actualiser le test WebRTC",
         "RefreshDNSLeakTest": "Actualiser le test de fuite DNS",
-        "StartSpeedTest": "Démarrer le test de vitesse",
+        "SpeedTestButton": "Démarrer/Pause le test de vitesse",
         "ToggleMaps": "Afficher/Masquer les cartes",
         "SourceSelect": "Sélectionner la source de géolocalisation IP",
         "ShowASNInfo": "Afficher les détails AS",
@@ -36,8 +113,9 @@
     },
     "ipInfos": {
         "id": "ipinfos",
+        "database": "Données",
         "Title": "Infos IP",
-        "Notes": "Le programme vérifie d'abord votre adresse IP à partir de 6 sources différentes (y compris IPv4 et IPv6), puis interroge les données géographiques correspondantes à partir de la source d'informations de localisation IP que vous avez sélectionnée. Si vous n'avez qu'une seule pile IP active, les sources de données non disponibles seront affichées comme vides.",
+        "Notes": "Le programme vérifie d'abord votre adresse IP à partir des sources différentes (y compris IPv4 et IPv6), puis interroge les données géographiques correspondantes à partir de la source d'informations de localisation IP que vous avez sélectionnée. Si vous n'avez qu'une seule pile IP active, les sources de données non disponibles seront affichées comme vides.",
         "Simple": "Simple",
         "Map": "Carte",
         "MapUnavailable": "Carte non disponible",
@@ -120,7 +198,7 @@
     "speedtest": {
         "id": "speedtest",
         "Title": "Test de vitesse",
-        "Note": "Le test de vitesse sera effectué via le réseau de bordure de Cloudflare, ce qui peut prendre beaucoup de temps. Si votre réseau est situé en Chine continentale, les données peuvent être biaisées. Les résultats du test de vitesse sont donnés à titre indicatif, la vitesse réelle sera plus rapide.",
+        "Note": "Le test de vitesse sera effectué via le réseau de bordure de Cloudflare, ce qui peut prendre beaucoup de temps. Si votre réseau est situé en Chine continentale, les données peuvent être biaisées. Les résultats du test de vitesse sont donnés à titre indicatif, la vitesse réelle sera plus rapide. Vous pouvez choisir la taille des paquets pour les tests de téléchargement et d'upload. Par défaut, le test de vitesse effectuera 4 tours de téléchargements et d'uploads de paquets, veuillez faire attention à la consommation de données.",
         "Download": "Téléchargement",
         "Upload": "Téléversement",
         "Latency": "Latence",
@@ -196,7 +274,11 @@
         "RefreshConnectivityTests": "Actualiser les tests de connectivité",
         "RefreshWebRTC": "Actualiser le test WebRTC",
         "RefreshDNSLeakTest": "Actualiser le test de fuite DNS",
-        "StartSpeedTest": "Démarrer le test de vitesse",
+        "SpeedTestButton": "Démarrer/Pause le test de vitesse",
+        "PingTest": "Ouvrir le Test de latence mondial",
+        "MTRTest": "Ouvrir le Test MTR",
+        "RuleTest": "Ouvrir le Test de régles",
+        "DNSResolver": "Ouvrir le Résolution DNS",
         "ToggleMaps": "Activer/désactiver les cartes",
         "IPCheck": "Vérification IP",
         "AddBingMapKey": "Ajouter une clé API Bing Map",
@@ -205,7 +287,10 @@
         "HelpNote": "Les personnes qui utilisent des raccourcis clavier sont vraiment géniales !",
         "GoNext": "Carte suivante",
         "GoPrevious": "Carte précédente",
-        "RefreshRuleTests": "Actualiser les tests de règles"
+        "RefreshRuleTests": "Actualiser les tests de règles",
+        "CensorshipCheck": "Ouvrir le Test de censorship",
+        "Preferences": "Ouvrir les Préférences",
+        "About": "Ouvrir À propos"
     },
     "page": {
         "title": "IPCheck.ing - Vérifier mon adresse IP et géolocalisation - Vérifier l'adresse IP de connexion WebRTC - Test de fuite DNS - Test de vitesse - Jason Ng Open Source",
@@ -485,6 +570,82 @@
                     {
                         "type": "improve",
                         "change": "Quelques améliorations"
+                    }
+                ]
+            },
+            {
+                "version": "v3.6",
+                "date": "Mar 10, 2024",
+                "content": [
+                    {
+                        "type": "add",
+                        "change": "Ajout de la fonction de résolution DNS"
+                    },
+                    {
+                        "type": "improve",
+                        "change": "Optimisation de la structure de la page d'accueil, les fonctionnalités avancées sont désormais repliables"
+                    },
+                    {
+                        "type": "improve",
+                        "change": "Optimisation de la logique du programme"
+                    }
+                ]
+            },
+            {
+                "version": "v3.7",
+                "date": "Apr 26, 2024",
+                "content": [
+                    {
+                        "type": "add",
+                        "change": "Fonctionnalité de test de censure ajoutée"
+                    },
+                    {
+                        "type": "add",
+                        "change": "Le test de vitesse réseau permet maintenant de personnaliser la taille des paquets"
+                    },
+                    {
+                        "type": "improve",
+                        "change": "Optimisation de certaines logiques fonctionnelles"
+                    }
+                ]
+            },
+            {
+                "version": "v3.8",
+                "date": "May 4, 2024",
+                "content": [
+                    {
+                        "type": "add",
+                        "change": "Ajout du panneau de préférences pour enregistrer les paramètres localement"
+                    },
+                    {
+                        "type": "add",
+                        "change": "Permettre la personnalisation de plusieurs comportements par défaut lors du deuxième lancement du programme"
+                    },
+                    {
+                        "type": "improve",
+                        "change": "Optimisation significative de la logique du programme"
+                    },
+                    {
+                        "type": "fix",
+                        "change": "Correction de quelques problèmes mineurs"
+                    }
+                ]
+            },
+            {
+                "version": "v3.9",
+                "date": "May 8, 2024",
+                "content": [
+                    {
+                        "type": "add",
+                        "change": "Ajout de la fonction de recherche Whois"
+                    },
+                    {
+                        "type": "improve",
+                        "change": "Optimisation de l'affichage et des effets d'animation pour les outils avancés"
+                    },
+                    {
+                        "type": "fix",
+                        "change": "Correction de quelques problèmes mineurs"
                     }
                 ]
             }
