@@ -18,7 +18,7 @@ export default defineConfig({
       }
     }),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'none',
       injectRegister: 'auto',
       workbox: {
         globPatterns: [
